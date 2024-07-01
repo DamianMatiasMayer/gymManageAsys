@@ -1,0 +1,32 @@
+<!-- main/templates/main/trainer.html -->
+{% extends 'main/index.html' %}
+{% block title %}Our Trainers - Neogym{% endblock %}
+
+{% block content %}
+<section class="trainer_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form_container">
+                    <h2>Our Trainers</h2>
+                    <form method="POST">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Add Trainer</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="trainer_list">
+                    <h3>Trainers List</h3>
+                    <ul>
+                        {% for trainer in trainers %}
+                            <li>{{ trainer.nombre }} - {{ trainer.experiencia }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

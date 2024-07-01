@@ -1,0 +1,38 @@
+<!-- main/templates/main/search_results.html -->
+{% extends 'main/base.html' %}
+{% block title %}Search Results - Neogym{% endblock %}
+
+{% block content %}
+<section class="search_results_section">
+    <div class="container">
+        <h2>Search Results for "{{ query }}"</h2>
+        
+        <h3>Trainers</h3>
+        <ul>
+            {% for trainer in trainers %}
+                <li>{{ trainer.nombre }} - {{ trainer.experiencia }}</li>
+            {% empty %}
+                <li>No trainers found.</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Members</h3>
+        <ul>
+            {% for member in members %}
+                <li>{{ member.nombre }} - {{ member.email }}</li>
+            {% empty %}
+                <li>No members found.</li>
+            {% endfor %}
+        </ul>
+        
+        <h3>Classes</h3>
+        <ul>
+            {% for class_obj in classes %}
+                <li>{{ class_obj.titulo }} - {{ class_obj.descripcion }}</li>
+            {% empty %}
+                <li>No classes found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}

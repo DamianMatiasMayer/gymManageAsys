@@ -1,0 +1,19 @@
+<!-- main/templates/main/search.html -->
+{% extends 'main/base.html' %}
+{% block title %}Search - Neogym{% endblock %}
+
+{% block content %}
+<section class="search_section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Search</h2>
+                <form method="GET">
+                    {{ form }}
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
