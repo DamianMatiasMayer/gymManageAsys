@@ -20,4 +20,4 @@ class SearchForm(forms.Form):
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['nombre', 'telefono', 'mensaje']
+        fields = ['nombre', 'email', 'telefono', 'mensaje']

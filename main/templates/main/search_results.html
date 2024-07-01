@@ -1,38 +1,46 @@
 <!-- main/templates/main/search_results.html -->
-{% extends 'main/base.html' %}
+{% extends 'main/index.html' %}
 {% block title %}Search Results - Neogym{% endblock %}
+
 
 {% block content %}
 <section class="search_results_section">
     <div class="container">
-        <h2>Search Results for "{{ query }}"</h2>
-        
-        <h3>Trainers</h3>
-        <ul>
-            {% for trainer in trainers %}
-                <li>{{ trainer.nombre }} - {{ trainer.experiencia }}</li>
-            {% empty %}
-                <li>No trainers found.</li>
-            {% endfor %}
-        </ul>
-        
-        <h3>Members</h3>
-        <ul>
-            {% for member in members %}
-                <li>{{ member.nombre }} - {{ member.email }}</li>
-            {% empty %}
-                <li>No members found.</li>
-            {% endfor %}
-        </ul>
-        
-        <h3>Classes</h3>
-        <ul>
-            {% for class_obj in classes %}
-                <li>{{ class_obj.titulo }} - {{ class_obj.descripcion }}</li>
-            {% empty %}
-                <li>No classes found.</li>
-            {% endfor %}
-        </ul>
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Search Results for "{{ query }}"</h2>
+                <h3>Trainers</h3>
+                {% if trainers %}
+                    <ul>
+                        {% for trainer in trainers %}
+                            <li>{{ trainer.nombre }} - {{ trainer.especialidad }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No trainers found.</p>
+                {% endif %}
+                <h3>Members</h3>
+                {% if members %}
+                    <ul>
+                        {% for member in members %}
+                            <li>{{ member.nombre }} - {{ member.email }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No members found.</p>
+                {% endif %}
+                <h3>Classes</h3>
+                {% if classes %}
+                    <ul>
+                        {% for class in classes %}
+                            <li>{{ class.titulo }} - {{ class.descripcion }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No classes found.</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

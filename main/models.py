@@ -2,7 +2,8 @@ from django.db import models
 
 class Member(models.Model):
     nombre = models.CharField(max_length=100)
-    telefono = models.CharField(max_length=15)
+    email = models.EmailField()
+    telefono = models.CharField(max_length=20)
     mensaje = models.TextField()
 
     def __str__(self):

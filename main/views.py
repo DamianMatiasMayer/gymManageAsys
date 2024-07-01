@@ -1,24 +1,23 @@
 from django.shortcuts import render, redirect
 from .models import *
-from .forms import MemberForm
-from .forms import TrainerForm
-from .forms import SearchForm
-
+from .forms import *
+from django.contrib import messages
 
 def index(request):
     return render(request, "main/index.html")
 
-from .forms import ContactForm
 
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
-            form.save()              
-            return redirect('index')  
+            form.save()
+            messages.success(request, 'Gracias por contactarnos. Nos pondremos en contacto contigo pronto.')
+            return redirect('contact')  
     else:
         form = ContactForm()
     return render(request, 'main/contact.html', {'form': form})
+
 
 def trainer(request):
     if request.method == 'POST':
@@ -35,6 +34,7 @@ def trainer(request):
         'trainers': trainers,
     }
     return render(request, 'main/trainer.html', context)
+
 
 def why(request):
     return render(request, "main/why.html")
