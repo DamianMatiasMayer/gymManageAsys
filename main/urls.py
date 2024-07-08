@@ -8,4 +8,6 @@ urlpatterns = [
     path('trainer/', trainer, name="trainer"),
     path('why/', why, name="why"),
     path('search/', search, name='search'),
+    
+    path('delete_trainer/<int:trainer_id>/', delete_trainer, name='delete_trainer'),
 ]

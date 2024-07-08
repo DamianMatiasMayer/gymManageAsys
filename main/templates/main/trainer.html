@@ -1,6 +1,6 @@
-<!-- main/templates/main/trainer.html -->
 {% extends 'main/index.html' %}
 {% block title %}Our Trainers - Neogym{% endblock %}
+
 
 {% block content %}
 <section class="trainer_section">
@@ -12,7 +12,7 @@
                     <form method="POST">
                         {% csrf_token %}
                         {{ form.as_p }}
-                        <button type="submit">Add Trainer</button>
+                        <button type="submit" class="btn btn-primary">Add Trainer</button>
                     </form>
                 </div>
             </div>
@@ -21,7 +21,12 @@
                     <h3>Trainers List</h3>
                     <ul>
                         {% for trainer in trainers %}
-                            <li>{{ trainer.nombre }} - {{ trainer.experiencia }}</li>
+                            <li>{{ trainer.nombre }} - {{ trainer.experiencia_anios }} years of experience
+                                <form action="{% url 'delete_trainer' trainer.id %}" method="POST" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>

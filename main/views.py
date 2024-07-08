@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib import messages
@@ -24,16 +24,13 @@ def trainer(request):
         form = TrainerForm(request.POST)
         if form.is_valid():
             form.save()
-            
+            return redirect('trainer')
     else:
         form = TrainerForm()
     
     trainers = Trainer.objects.all()
-    context = {
-        'form': form,
-        'trainers': trainers,
-    }
-    return render(request, 'main/trainer.html', context)
+    return render(request, 'main/trainer.html', {'form': form, 'trainers': trainers})
+
 
 
 def why(request):
@@ -61,3 +58,8 @@ def search(request):
         form = SearchForm()
     
     return render(request, 'main/search.html', {'form': form})
+
+def delete_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    trainer.delete()
+    return redirect('trainer')

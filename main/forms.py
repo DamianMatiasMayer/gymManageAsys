@@ -12,8 +12,8 @@ class MemberForm(forms.ModelForm):
 class TrainerForm(forms.ModelForm):
     class Meta:
         model = Trainer
-        fields = ['nombre', 'experiencia', 'tarifa']
-
+        fields = ['nombre', 'experiencia_anios']
+        
 class SearchForm(forms.Form):
     search_query = forms.CharField(label='Search')
 

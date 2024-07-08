@@ -11,8 +11,10 @@ class Member(models.Model):
 
 class Trainer(models.Model):
     nombre = models.CharField(max_length=100)
-    experiencia = models.CharField(max_length=100)
-    tarifa = models.DecimalField(max_digits=6, decimal_places=2)
+    experiencia_anios = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.nombre} - {self.experiencia_anios} years of experience"
 
 class Class(models.Model):
     titulo = models.CharField(max_length=100)
