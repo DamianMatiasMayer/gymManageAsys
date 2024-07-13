@@ -4,7 +4,7 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.models import User
 
 def index(request):
     return render(request, "main/index.html")
@@ -36,26 +36,25 @@ def why(request):
     return render(request, "main/why.html")
 
 def search(request):
-    if request.method == 'GET':
-        form = SearchForm(request.GET)
-        if form.is_valid():
-            query = form.cleaned_data.get('search_query')
-            
-            trainers = Trainer.objects.filter(nombre__icontains=query)
-            members = Member.objects.filter(nombre__icontains=query)
-            classes = Class.objects.filter(titulo__icontains=query)
-            
-            context = {
-                'trainers': trainers,
-                'members': members,
-                'classes': classes,
-                'query': query,
-            }
-            return render(request, 'main/search_results.html', context)
-    else:
-        form = SearchForm()
-    
-    return render(request, 'main/search.html', {'form': form})
+    form = SearchForm(request.GET or None)
+    trainers = Trainer.objects.all()
+    members = Member.objects.all()
+    classes = Class.objects.all()
+
+    if form.is_valid():
+        query = form.cleaned_data.get('search_query')
+        if query:
+            trainers = trainers.filter(nombre__icontains=query)
+            members = members.filter(nombre__icontains=query)
+            classes = classes.filter(titulo__icontains=query)
+
+    context = {
+        'form': form,
+        'trainers': trainers,
+        'members': members,
+        'classes': classes
+    }
+    return render(request, 'main/search.html', context)
 
 def delete_trainer(request, trainer_id):
     trainer = get_object_or_404(Trainer, id=trainer_id)
@@ -64,32 +63,49 @@ def delete_trainer(request, trainer_id):
 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST, request.FILES)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'Cuenta creada para {username}!')
+            messages.success(request, f'Account created for {username}!')
             return redirect('login')
     else:
         form = UserRegisterForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'main/register.html', {'form': form})
 
 @login_required
 def profile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        if hasattr(request.user, 'profile'):
+            p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+        else:
+            p_form = ProfileUpdateForm(request.POST, request.FILES)
+        
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
-            p_form.save()
-            messages.success(request, '¡Tu cuenta ha sido actualizada!')
+            if hasattr(request.user, 'profile'):
+                p_form.save()
+            else:
+                profile = p_form.save(commit=False)
+                profile.user = request.user
+                profile.save()
+            messages.success(request, 'Your account has been updated!')
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
-        p_form = ProfileUpdateForm(instance=request.user.profile)
-
+        if hasattr(request.user, 'profile'):
+            p_form = ProfileUpdateForm(instance=request.user.profile)
+        else:
+            p_form = ProfileUpdateForm()
+    
     context = {
         'u_form': u_form,
         'p_form': p_form
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'main/profile.html', context)
+
+#acerca de mi 
+
+def about(request):
+    return render(request, 'main/about.html')

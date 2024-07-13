@@ -16,7 +16,7 @@ class TrainerForm(forms.ModelForm):
         fields = ['nombre', 'experiencia_anios']
         
 class SearchForm(forms.Form):
-    search_query = forms.CharField(label='Search')
+    search_query = forms.CharField(max_length=100, required=False, label='Buscar')
 
 class ContactForm(forms.ModelForm):
     class Meta:
@@ -26,11 +26,10 @@ class ContactForm(forms.ModelForm):
 #registro
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField()
-    avatar = forms.ImageField(required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2', 'avatar']
+        fields = ['username', 'email', 'password1', 'password2']
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()
@@ -42,4 +41,4 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image']
+        fields = ['avatar']

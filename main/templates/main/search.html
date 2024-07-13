@@ -1,22 +1,49 @@
-<!-- main/templates/main/search.html -->
+
 {% extends 'main/index.html' %}
-{% block title %}Search - Neogym{% endblock %}
+
+{% block title %}Búsqueda - Neogym{% endblock %}
 
 {% block content %}
-<section class="search_section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form_container">
-                    <h2>Search</h2>
-                    <form method="GET" action="{% url 'search' %}">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<div class="container">
+    <h2>Buscar</h2>
+    <form method="GET" action="{% url 'search' %}">
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+    
+    <h3>Resultados</h3>
+    
+    <h4>Entrenadores</h4>
+    {% if trainers %}
+        <ul>
+            {% for trainer in trainers %}
+                <li>{{ trainer.nombre }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron entrenadores.</p>
+    {% endif %}
+    
+    <h4>Miembros</h4>
+    {% if members %}
+        <ul>
+            {% for member in members %}
+                <li>{{ member.nombre }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron miembros.</p>
+    {% endif %}
+    
+    <h4>Clases</h4>
+    {% if classes %}
+        <ul>
+            {% for clase in classes %}
+                <li>{{ clase.titulo }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No se encontraron clases.</p>
+    {% endif %}
+</div>
 {% endblock %}
