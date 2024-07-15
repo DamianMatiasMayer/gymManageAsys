@@ -4,7 +4,13 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .models import Profile
+
+
+#vistas principales
+
 
 def index(request):
     return render(request, "main/index.html")
@@ -32,6 +38,11 @@ def trainer(request):
     trainers = Trainer.objects.all()
     return render(request, 'main/trainer.html', {'form': form, 'trainers': trainers})
 
+def delete_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    trainer.delete()
+    return redirect('trainer')
+
 def why(request):
     return render(request, "main/why.html")
 
@@ -56,10 +67,9 @@ def search(request):
     }
     return render(request, 'main/search.html', context)
 
-def delete_trainer(request, trainer_id):
-    trainer = get_object_or_404(Trainer, id=trainer_id)
-    trainer.delete()
-    return redirect('trainer')
+
+#registro
+
 
 def register(request):
     if request.method == 'POST':
@@ -75,37 +85,43 @@ def register(request):
 
 @login_required
 def profile(request):
+    user = request.user
+    profile, created = Profile.objects.get_or_create(user=user)
+    
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance=request.user)
-        if hasattr(request.user, 'profile'):
-            p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
-        else:
-            p_form = ProfileUpdateForm(request.POST, request.FILES)
+        u_form = UserUpdateForm(request.POST, instance=user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
+        password_form = PasswordChangeForm(user=user, data=request.POST)
         
-        if u_form.is_valid() and p_form.is_valid():
+        if u_form.is_valid() and p_form.is_valid() and password_form.is_valid():
             u_form.save()
-            if hasattr(request.user, 'profile'):
-                p_form.save()
-            else:
-                profile = p_form.save(commit=False)
-                profile.user = request.user
-                profile.save()
-            messages.success(request, 'Your account has been updated!')
+            p_form.save()
+            user = password_form.save()
+            update_session_auth_hash(request, user)  
+            messages.success(request, 'Tu perfil y contraseña han sido actualizados.')
             return redirect('profile')
-    else:
-        u_form = UserUpdateForm(instance=request.user)
-        if hasattr(request.user, 'profile'):
-            p_form = ProfileUpdateForm(instance=request.user.profile)
         else:
-            p_form = ProfileUpdateForm()
+            messages.error(request, 'Por favor corrige los errores a continuación.')
+            
+            
+    else:
+        u_form = UserUpdateForm(instance=user)
+        p_form = ProfileUpdateForm(instance=profile)
+        password_form = PasswordChangeForm(user=user)
     
     context = {
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'password_form': password_form
     }
+
     return render(request, 'main/profile.html', context)
 
+
+
+
 #acerca de mi 
+
 
 def about(request):
     return render(request, 'main/about.html')

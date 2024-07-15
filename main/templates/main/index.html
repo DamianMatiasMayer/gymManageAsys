@@ -90,7 +90,7 @@
                 <div class="user_option">
                   {% if user.is_authenticated %}
                   <div class="user_info">
-                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" class="user_avatar">
+                    <img src="{{ user.profile.avatar.url }}" alt="Avatar" height='40px' class="user_avatar">
                     <span>{{ user.username }}</span>
                     <a class="nav-link" href="{% url 'profile' %}">Profile</a>
                     <form method="post" action="{% url 'logout' %}">

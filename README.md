@@ -33,3 +33,10 @@ Este es un proyecto Django para la gestión de un gimnasio
 5. Navegar a `http://127.0.0.1:8000/` para acceder a la página principal.
 6. Probar el formulario de contacto en `http://127.0.0.1:8000/contact/`.
 7. Probar el formulario de búsqueda en `http://127.0.0.1:8000/search/`.
+
+## usuario administrador
+
+nombre de usuario = damian
+mail = a@b.com
+contraseña = 12345
+
