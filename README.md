@@ -36,7 +36,6 @@ Este es un proyecto Django para la gestión de un gimnasio
 
 ## usuario administrador
 
-nombre de usuario = damian
-mail = a@b.com
-contraseña = 12345
+nombre de usuario = mati
+contraseña = damian123
 
