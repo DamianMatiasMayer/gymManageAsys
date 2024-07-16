@@ -83,10 +83,17 @@ def register(request):
         form = UserRegisterForm()
     return render(request, 'main/register.html', {'form': form})
 
+from django.contrib.auth import update_session_auth_hash
+
 @login_required
 def profile(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)
+    
+    # Inicializar los formularios
+    u_form = UserUpdateForm(instance=user)
+    p_form = ProfileUpdateForm(instance=profile)
+    password_form = PasswordChangeForm(user=user)
     
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=user)
@@ -97,17 +104,11 @@ def profile(request):
             u_form.save()
             p_form.save()
             user = password_form.save()
-            update_session_auth_hash(request, user)  
+            update_session_auth_hash(request, user)  # Actualizar sesión con la nueva contraseña
             messages.success(request, 'Tu perfil y contraseña han sido actualizados.')
             return redirect('profile')
         else:
             messages.error(request, 'Por favor corrige los errores a continuación.')
-            
-            
-    else:
-        u_form = UserUpdateForm(instance=user)
-        p_form = ProfileUpdateForm(instance=profile)
-        password_form = PasswordChangeForm(user=user)
     
     context = {
         'u_form': u_form,
@@ -116,6 +117,7 @@ def profile(request):
     }
 
     return render(request, 'main/profile.html', context)
+
 
 
 

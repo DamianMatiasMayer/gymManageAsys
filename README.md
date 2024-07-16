@@ -39,3 +39,8 @@ Este es un proyecto Django para la gestión de un gimnasio
 nombre de usuario = mati
 contraseña = damian123
 
+## usuario editado
+
+nombre de usuario = fernando
+contraseña = mayer123
+

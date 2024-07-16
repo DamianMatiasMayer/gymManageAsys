@@ -2,6 +2,16 @@
 
 {% block content %}
   <div class="content-section">
+    {% if messages %}
+      <div>
+        {% for message in messages %}
+          <div class="alert {{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
       <fieldset class="form-group">
