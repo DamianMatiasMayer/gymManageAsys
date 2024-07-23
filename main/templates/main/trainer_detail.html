@@ -1,0 +1,9 @@
+{% extends 'main/index.html' %}
+
+
+{% block content %}
+  <h2>{{ trainer.nombre }}</h2>
+  <p>{{ trainer.experiencia_anios }} years of experience</p>
+  <a href="{% url 'trainer_update' trainer.pk %}">Edit</a>
+  <a href="{% url 'trainer_list' %}">Back to list</a>
+{% endblock %}

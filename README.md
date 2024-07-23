@@ -39,8 +39,88 @@ Este es un proyecto Django para la gestión de un gimnasio
 nombre de usuario = mati
 contraseña = damian123
 
-## usuario editado
+Funcionalidad CRUD para Trainer
 
-nombre de usuario = fernando
-contraseña = mayer123
+Lista de entrenadores
+URL: /trainers/
 
+Descripción: Muestra una lista de todos los entrenadores en el sistema. Solo accesible para usuarios logueados.
+
+2. Detalle del entrenador
+URL: /trainers/<pk>/
+
+Descripción: Muestra los detalles de un entrenador específico. Reemplaza <pk> con el ID del entrenador. Solo accesible para usuarios logueados.
+
+3. Crear nuevo entrenador
+URL: /trainers/new/
+
+Descripción: Permite crear un nuevo entrenador. Solo accesible para usuarios logueados.
+
+4. Editar entrenador
+URL: /trainers/<pk>/edit/
+
+Descripción: Permite editar un entrenador existente. Reemplaza <pk> con el ID del entrenador. Solo accesible para usuarios logueados.
+
+5. Eliminar entrenador
+URL: /trainers/<pk>/delete/
+
+Descripción: Permite eliminar un entrenador existente. Reemplaza <pk> con el ID del entrenador. Solo accesible para usuarios logueados.
+
+Funcionalidad CRUD para Member
+
+1. Lista de miembros
+URL: /members/
+
+Descripción: Muestra una lista de todos los miembros en el sistema. Solo accesible para usuarios logueados.
+
+2. Detalle del miembro
+URL: /members/<pk>/
+
+Descripción: Muestra los detalles de un miembro específico. Reemplaza <pk> con el ID del miembro. Solo accesible para usuarios logueados.
+
+3. Crear nuevo miembro
+URL: /members/new/
+
+Descripción: Permite crear un nuevo miembro. Solo accesible para usuarios logueados.
+
+4. Editar miembro
+URL: /members/<pk>/edit/
+
+Descripción: Permite editar un miembro existente. Reemplaza <pk> con el ID del miembro. Solo accesible para usuarios logueados.
+
+5. Eliminar miembro
+URL: /members/<pk>/delete/
+
+Descripción: Permite eliminar un miembro existente. Reemplaza <pk> con el ID del miembro. Solo accesible para usuarios logueados.
+
+Funcionalidad CRUD para Class
+
+1. Lista de clases
+URL: /classes/
+
+Descripción: Muestra una lista de todas las clases en el sistema. Solo accesible para usuarios logueados.
+
+2. Detalle de la clase
+URL: /classes/<pk>/
+
+Descripción: Muestra los detalles de una clase específica. Reemplaza <pk> con el ID de la clase. Solo accesible para usuarios logueados.
+
+3. Crear nueva clase
+URL: /classes/new/
+
+Descripción: Permite crear una nueva clase. Solo accesible para usuarios logueados.
+
+4. Editar clase
+URL: /classes/<pk>/edit/
+
+Descripción: Permite editar una clase existente. Reemplaza <pk> con el ID de la clase. Solo accesible para usuarios logueados.
+
+5. Eliminar clase
+URL: /classes/<pk>/delete/
+
+Descripción: Permite eliminar una clase existente. Reemplaza <pk> con el ID de la clase. Solo accesible para usuarios logueados.
+
+Pasos para probar la funcionalidad CRUD
+Inicia sesión con tu cuenta de superusuario.
+Accede a las URLs mencionadas anteriormente para listar, crear, ver detalles, editar y eliminar entrenadores, miembros y clases.
+Verifica que las operaciones se realicen correctamente y que solo los usuarios autenticados puedan acceder a estas vistas.

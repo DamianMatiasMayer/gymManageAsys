@@ -1,0 +1,15 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+  <h2>{{ class_instance.titulo }}</h2>
+  <p>{{ class_instance.descripcion }}</p>
+  <p>Trainer: {{ class_instance.entrenador.nombre }}</p>
+  <p>Members:</p>
+  <ul>
+    {% for member in class_instance.miembros.all %}
+      <li>{{ member.nombre }}</li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'class_update' class_instance.pk %}">Edit</a>
+  <a href="{% url 'class_list' %}">Back to list</a>
+{% endblock %}

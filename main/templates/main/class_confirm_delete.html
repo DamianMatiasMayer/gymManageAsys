@@ -1,0 +1,10 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+  <h2>Are you sure you want to delete "{{ class_instance.titulo }}"?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, delete</button>
+  </form>
+  <a href="{% url 'class_list' %}">Cancel</a>
+{% endblock %}

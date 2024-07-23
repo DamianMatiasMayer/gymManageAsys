@@ -1,0 +1,15 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+  <h2>Classes</h2>
+  <a href="{% url 'class_create' %}">Add new class</a>
+  <ul>
+    {% for class_instance in classes %}
+      <li>
+        <a href="{% url 'class_detail' class_instance.pk %}">{{ class_instance.titulo }}</a>
+        <a href="{% url 'class_update' class_instance.pk %}">Edit</a>
+        <a href="{% url 'class_delete' class_instance.pk %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+  <h2>Trainers</h2>
+  <a href="{% url 'trainer_create' %}">Add new trainer</a>
+  <ul>
+    {% for trainer in trainers %}
+      <li>
+        <a href="{% url 'trainer_detail' trainer.pk %}">{{ trainer.nombre }}</a>
+        ({{ trainer.experiencia_anios }} years of experience)
+        <a href="{% url 'trainer_update' trainer.pk %}">Edit</a>
+        <a href="{% url 'trainer_delete' trainer.pk %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

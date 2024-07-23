@@ -3,6 +3,7 @@ from django.contrib.auth import views as auth_views
 from main import views as main_views
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 
 urlpatterns = [
@@ -30,6 +31,26 @@ urlpatterns = [
     #acerca de mi 
     
     path('about/', main_views.about, name='about'),
+    
+    #CRUD para Trainer
+    path('trainers/', main_views.trainer_list, name='trainer_list'),
+    path('trainers/<int:pk>/', main_views.trainer_detail, name='trainer_detail'),
+    path('trainers/new/', main_views.trainer_create, name='trainer_create'),
+    path('trainers/<int:pk>/edit/', main_views.trainer_update, name='trainer_update'),
+    path('trainers/<int:pk>/delete/', main_views.trainer_delete, name='trainer_delete'),
 
-
+    #CRUD para Member
+    path('members/', main_views.member_list, name='member_list'),
+    path('members/<int:pk>/', main_views.member_detail, name='member_detail'),
+    path('members/new/', main_views.member_create, name='member_create'),
+    path('members/<int:pk>/edit/', main_views.member_update, name='member_update'),
+    path('members/<int:pk>/delete/', main_views.member_delete, name='member_delete'),
+    
+     #CRUD para Class
+    path('classes/', main_views.class_list, name='class_list'),
+    path('classes/<int:pk>/', main_views.class_detail, name='class_detail'),
+    path('classes/new/', main_views.class_create, name='class_create'),
+    path('classes/<int:pk>/edit/', main_views.class_update, name='class_update'),
+    path('classes/<int:pk>/delete/', main_views.class_delete, name='class_delete'),
+    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -7,7 +7,9 @@ from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from .models import Profile
-
+from .forms import TrainerForm
+from .forms import MemberForm
+from .forms import ClassForm
 
 #vistas principales
 
@@ -127,3 +129,142 @@ def profile(request):
 
 def about(request):
     return render(request, 'main/about.html')
+
+#CRUDS trainer
+
+@login_required
+def trainer_list(request):
+    trainers = Trainer.objects.all()
+    return render(request, 'main/trainer_list.html', {'trainers': trainers})
+
+@login_required
+def trainer_detail(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    return render(request, 'main/trainer_detail.html', {'trainer': trainer})
+
+@login_required
+def trainer_create(request):
+    if request.method == "POST":
+        form = TrainerForm(request.POST)
+        if form.is_valid():
+            trainer = form.save()
+            return redirect('trainer_detail', pk=trainer.pk)
+    else:
+        form = TrainerForm()
+    return render(request, 'main/trainer_form.html', {'form': form})
+
+@login_required
+def trainer_update(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    if request.method == "POST":
+        form = TrainerForm(request.POST, instance=trainer)
+        if form.is_valid():
+            trainer = form.save()
+            return redirect('trainer_detail', pk=trainer.pk)
+    else:
+        form = TrainerForm(instance=trainer)
+    return render(request, 'main/trainer_form.html', {'form': form})
+
+@login_required
+def trainer_delete(request, pk):
+    trainer = get_object_or_404(Trainer, pk=pk)
+    if request.method == "POST":
+        trainer.delete()
+        return redirect('trainer_list')
+    return render(request, 'main/trainer_confirm_delete.html', {'trainer': trainer})
+
+
+#CRUD Miembros
+# Lista de miembros
+@login_required
+def member_list(request):
+    members = Member.objects.all()
+    return render(request, 'main/member_list.html', {'members': members})
+
+# Detalle del miembro
+@login_required
+def member_detail(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    return render(request, 'main/member_detail.html', {'member': member})
+
+# Crear nuevo miembro
+@login_required
+def member_create(request):
+    if request.method == "POST":
+        form = MemberForm(request.POST)
+        if form.is_valid():
+            member = form.save()
+            return redirect('member_detail', pk=member.pk)
+    else:
+        form = MemberForm()
+    return render(request, 'main/member_form.html', {'form': form})
+
+# Editar miembro
+@login_required
+def member_update(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    if request.method == "POST":
+        form = MemberForm(request.POST, instance=member)
+        if form.is_valid():
+            member = form.save()
+            return redirect('member_detail', pk=member.pk)
+    else:
+        form = MemberForm(instance=member)
+    return render(request, 'main/member_form.html', {'form': form})
+
+# Eliminar miembro
+@login_required
+def member_delete(request, pk):
+    member = get_object_or_404(Member, pk=pk)
+    if request.method == "POST":
+        member.delete()
+        return redirect('member_list')
+    return render(request, 'main/member_confirm_delete.html', {'member': member})
+
+
+#CRUD class
+# Lista de clases
+@login_required
+def class_list(request):
+    classes = Class.objects.all()
+    return render(request, 'main/class_list.html', {'classes': classes})
+
+# Detalle de la clase
+@login_required
+def class_detail(request, pk):
+    class_instance = get_object_or_404(Class, pk=pk)
+    return render(request, 'main/class_detail.html', {'class_instance': class_instance})
+
+# Crear nueva clase
+@login_required
+def class_create(request):
+    if request.method == "POST":
+        form = ClassForm(request.POST)
+        if form.is_valid():
+            class_instance = form.save()
+            return redirect('class_detail', pk=class_instance.pk)
+    else:
+        form = ClassForm()
+    return render(request, 'main/class_form.html', {'form': form})
+
+# Editar clase
+@login_required
+def class_update(request, pk):
+    class_instance = get_object_or_404(Class, pk=pk)
+    if request.method == "POST":
+        form = ClassForm(request.POST, instance=class_instance)
+        if form.is_valid():
+            class_instance = form.save()
+            return redirect('class_detail', pk=class_instance.pk)
+    else:
+        form = ClassForm(instance=class_instance)
+    return render(request, 'main/class_form.html', {'form': form})
+
+# Eliminar clase
+@login_required
+def class_delete(request, pk):
+    class_instance = get_object_or_404(Class, pk=pk)
+    if request.method == "POST":
+        class_instance.delete()
+        return redirect('class_list')
+    return render(request, 'main/class_confirm_delete.html', {'class_instance': class_instance})

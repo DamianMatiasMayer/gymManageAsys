@@ -1,0 +1,9 @@
+{% extends 'main/index.html' %}
+
+{% block content %}
+  <h2>{{ member.nombre }}</h2>
+  <p>Teléfono: {{ member.telefono }}</p>
+  <p>Mensaje: {{ member.mensaje }}</p>
+  <a href="{% url 'member_update' member.pk %}">Edit</a>
+  <a href="{% url 'member_list' %}">Back to list</a>
+{% endblock %}
